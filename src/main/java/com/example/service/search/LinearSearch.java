@@ -10,11 +10,11 @@ public class LinearSearch implements Search {
 
     @Override
     public List<Person> findPeople(List<Person> allPeople, List<String> names) {
-        if (allPeople == null) {
+        if (allPeople == null || allPeople.size() == 0) {
             return null;
         }
 
-        if (names == null) {
+        if (names == null || names.size() == 0) {
             return null;
         }
 
