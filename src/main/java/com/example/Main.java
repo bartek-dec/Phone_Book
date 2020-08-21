@@ -3,11 +3,10 @@ package com.example;
 import com.example.data.DataReader;
 import com.example.data.DataReaderImpl;
 import com.example.data.Person;
+import com.example.service.search.LinearSearch;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,41 +18,38 @@ public class Main {
         List<String> contacts = reader.readContacts(find);
         List<Person> people = reader.readPeople(directory);
 
-        List<Person> foundPeople = new ArrayList<>();
+        LinearSearch linearSearch = new LinearSearch();
 
         System.out.println("Start searching...");
         long start = System.currentTimeMillis();
 
-        int size = people.size();
-        for (String contact : contacts) {
-            for (int i = 0; i < size; i++) {
-                if (Objects.equals(contact, people.get(i).getName())) {
-                    foundPeople.add(people.get(i));
-                    break;
-                }
-            }
-        }
+        List<Person> foundPeople = linearSearch.findPeople(people, contacts);
 
         long finish = System.currentTimeMillis();
+
+        System.out.println(getProcessTime(start, finish, foundPeople.size(), contacts.size()));
+    }
+
+    private static String getProcessTime(long start, long finish, int foundPeople, int requiredPeople) {
         long delta = finish - start;
         long minutes;
         long seconds;
-        long miliSec;
+        long milliSec;
 
         minutes = delta / 60000;
         seconds = (delta - minutes * 60000) / 1000;
-        miliSec = delta - (minutes * 60000 + seconds * 1000);
+        milliSec = delta - (minutes * 60000 + seconds * 1000);
 
         StringBuilder builder = new StringBuilder();
         builder.append("Found ");
-        builder.append(foundPeople.size());
+        builder.append(foundPeople);
         builder.append(" / ");
-        builder.append(contacts.size());
+        builder.append(requiredPeople);
         builder.append(" entries. Time taken: ");
         builder.append(minutes).append(" min. ");
         builder.append(seconds).append(" sec. ");
-        builder.append(miliSec).append(" ms.");
+        builder.append(milliSec).append(" ms.");
 
-        System.out.println(builder.toString());
+        return builder.toString();
     }
 }
