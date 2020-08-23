@@ -24,9 +24,10 @@ public class Main {
         List<Person> people = reader.readPeople(directory);
         List<Person> peopleToBeSorted = new ArrayList<>(people);
 
-        Search linearSearch = new LinearSearch();
 
         System.out.println("Start searching (linear search)...");
+        Search linearSearch = new LinearSearch();
+
         long start = System.currentTimeMillis();
 
         List<Person> foundPeople = linearSearch.findPeople(people, contacts);
@@ -34,8 +35,11 @@ public class Main {
         long finish = System.currentTimeMillis();
         long linearSearchTime = finish - start;
 
-        System.out.println(getProcessTime(start, finish, foundPeople.size(), contacts.size()));
+        System.out.print("Found " + foundPeople.size() + " / " + contacts.size() + " entries. ");
+        System.out.print("Time taken: ");
+        System.out.println(calculateTime(start, finish));
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         System.out.println("\nStart searching (bubble sort + jump search)...");
         Sort bubbleSort = new BubbleSort();
         Search jumpSearch = new JumpSearch();
@@ -47,7 +51,6 @@ public class Main {
         long finishSort = System.currentTimeMillis();
 
         long startSearch = System.currentTimeMillis();
-
         List<Person> foundPeople2;
         if (sortedPeople == null) {
             foundPeople2 = linearSearch.findPeople(people, contacts);
@@ -57,15 +60,21 @@ public class Main {
         long finishSearch = System.currentTimeMillis();
 
         finish = System.currentTimeMillis();
-        System.out.println(getProcessTime(start, finish, foundPeople2.size(), contacts.size()));
-        System.out.print(getProcessTime(startSort, finishSort, "Sorting time"));
+
+        System.out.print("Found " + foundPeople2.size() + " / " + contacts.size() + " entries. ");
+        System.out.print("Time taken: ");
+        System.out.println(calculateTime(start, finish));
+
+        System.out.print("Sorting time: ");
+        System.out.print(calculateTime(startSort, finishSort));
         if (sortedPeople == null) {
             System.out.println(" - STOPPED, moved to linear search");
         }
-        System.out.println(getProcessTime(startSearch, finishSearch, "Searching time"));
+        System.out.print("Searching time: ");
+        System.out.println(calculateTime(startSearch, finishSearch));
     }
 
-    private static String getProcessTime(long start, long finish, int foundPeople, int requiredPeople) {
+    private static String calculateTime(long start, long finish) {
         long delta = finish - start;
         long minutes;
         long seconds;
@@ -76,30 +85,6 @@ public class Main {
         milliSec = delta - (minutes * 60000 + seconds * 1000);
 
         StringBuilder builder = new StringBuilder();
-        builder.append("Found ");
-        builder.append(foundPeople);
-        builder.append(" / ");
-        builder.append(requiredPeople);
-        builder.append(" entries. Time taken: ");
-        builder.append(minutes).append(" min. ");
-        builder.append(seconds).append(" sec. ");
-        builder.append(milliSec).append(" ms.");
-
-        return builder.toString();
-    }
-
-    private static String getProcessTime(long start, long finish, String message) {
-        long delta = finish - start;
-        long minutes;
-        long seconds;
-        long milliSec;
-
-        minutes = delta / 60000;
-        seconds = (delta - minutes * 60000) / 1000;
-        milliSec = delta - (minutes * 60000 + seconds * 1000);
-
-        StringBuilder builder = new StringBuilder();
-        builder.append(message).append(": ");
         builder.append(minutes).append(" min. ");
         builder.append(seconds).append(" sec. ");
         builder.append(milliSec).append(" ms.");
