@@ -3,10 +3,12 @@ package com.example;
 import com.example.data.DataReader;
 import com.example.data.DataReaderImpl;
 import com.example.data.Person;
+import com.example.service.search.BinarySearch;
 import com.example.service.search.JumpSearch;
 import com.example.service.search.LinearSearch;
 import com.example.service.search.Search;
 import com.example.service.sort.BubbleSort;
+import com.example.service.sort.QuickSort;
 import com.example.service.sort.Sort;
 
 import java.io.File;
@@ -22,7 +24,8 @@ public class Main {
 
         List<String> contacts = reader.readContacts(find);
         List<Person> people = reader.readPeople(directory);
-        List<Person> peopleToBeSorted = new ArrayList<>(people);
+        List<Person> peopleToBeBubbleSort = new ArrayList<>(people);
+        List<Person> peopleToBeQuickSort = new ArrayList<>(people);
 
 
         System.out.println("Start searching (linear search)...");
@@ -30,12 +33,12 @@ public class Main {
 
         long start = System.currentTimeMillis();
 
-        List<Person> foundPeople = linearSearch.findPeople(people, contacts);
+        List<Person> foundPeopleLinear = linearSearch.findPeople(people, contacts);
 
         long finish = System.currentTimeMillis();
         long linearSearchTime = finish - start;
 
-        System.out.print("Found " + foundPeople.size() + " / " + contacts.size() + " entries. ");
+        System.out.print("Found " + foundPeopleLinear.size() + " / " + contacts.size() + " entries. ");
         System.out.print("Time taken: ");
         System.out.println(calculateTime(start, finish));
 
@@ -47,28 +50,66 @@ public class Main {
         start = System.currentTimeMillis();
 
         long startSort = System.currentTimeMillis();
-        List<Person> sortedPeople = bubbleSort.sortByNameAlphabetically(peopleToBeSorted, linearSearchTime);
+        List<Person> bubbleSortPeople = bubbleSort.sortByNameAlphabetically(peopleToBeBubbleSort, linearSearchTime);
         long finishSort = System.currentTimeMillis();
 
         long startSearch = System.currentTimeMillis();
-        List<Person> foundPeople2;
-        if (sortedPeople == null) {
-            foundPeople2 = linearSearch.findPeople(people, contacts);
+        List<Person> foundPeopleJump;
+        if (bubbleSortPeople == null) {
+            foundPeopleJump = linearSearch.findPeople(people, contacts);
         } else {
-            foundPeople2 = jumpSearch.findPeople(sortedPeople, contacts);
+            foundPeopleJump = jumpSearch.findPeople(bubbleSortPeople, contacts);
         }
         long finishSearch = System.currentTimeMillis();
 
         finish = System.currentTimeMillis();
 
-        System.out.print("Found " + foundPeople2.size() + " / " + contacts.size() + " entries. ");
+        System.out.print("Found " + foundPeopleJump.size() + " / " + contacts.size() + " entries. ");
         System.out.print("Time taken: ");
         System.out.println(calculateTime(start, finish));
 
         System.out.print("Sorting time: ");
         System.out.print(calculateTime(startSort, finishSort));
-        if (sortedPeople == null) {
-            System.out.println(" - STOPPED, moved to linear search");
+        if (bubbleSortPeople == null) {
+            System.out.print(" - STOPPED, moved to linear search\n");
+        }else {
+            System.out.print("\n");
+        }
+        System.out.print("Searching time: ");
+        System.out.println(calculateTime(startSearch, finishSearch));
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        System.out.println("\nStart searching (quick sort + binary search)...");
+        Sort quickSort = new QuickSort();
+        Search binarySearch = new BinarySearch();
+
+        start = System.currentTimeMillis();
+
+        startSort = System.currentTimeMillis();
+        List<Person> quickSortPeople = quickSort.sortByNameAlphabetically(peopleToBeQuickSort, linearSearchTime);
+        finishSort = System.currentTimeMillis();
+
+        startSearch = System.currentTimeMillis();
+        List<Person> foundPeopleBinary;
+        if (quickSortPeople == null) {
+            foundPeopleBinary = linearSearch.findPeople(people, contacts);
+        } else {
+            foundPeopleBinary = binarySearch.findPeople(quickSortPeople, contacts);
+        }
+        finishSearch = System.currentTimeMillis();
+
+        finish = System.currentTimeMillis();
+
+        System.out.print("Found " + foundPeopleBinary.size() + " / " + contacts.size() + " entries. ");
+        System.out.print("Time taken: ");
+        System.out.println(calculateTime(start, finish));
+
+        System.out.print("Sorting time: ");
+        System.out.print(calculateTime(startSort, finishSort));
+        if (quickSortPeople == null) {
+            System.out.print(" - STOPPED, moved to linear search\n");
+        } else {
+            System.out.print("\n");
         }
         System.out.print("Searching time: ");
         System.out.println(calculateTime(startSearch, finishSearch));
