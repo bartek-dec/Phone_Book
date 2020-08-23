@@ -21,7 +21,9 @@ public class JumpSearch implements Search {
         List<Person> foundPeople = new ArrayList<>();
         for (String name : names) {
             Person person = findPerson(allPeople, name);
-            foundPeople.add(person);
+            if (person != null) {
+                foundPeople.add(person);
+            }
         }
         return foundPeople;
     }
