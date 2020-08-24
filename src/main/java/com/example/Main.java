@@ -13,6 +13,7 @@ import com.example.service.sort.Sort;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 public class Main {
@@ -72,7 +73,7 @@ public class Main {
         System.out.print(calculateTime(startSort, finishSort));
         if (bubbleSortPeople == null) {
             System.out.print(" - STOPPED, moved to linear search\n");
-        }else {
+        } else {
             System.out.print("\n");
         }
         System.out.print("Searching time: ");
@@ -111,6 +112,36 @@ public class Main {
         } else {
             System.out.print("\n");
         }
+        System.out.print("Searching time: ");
+        System.out.println(calculateTime(startSearch, finishSearch));
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        System.out.println("\nStart searching (hash table)...");
+        Hashtable<String, Person> table = new Hashtable<>();
+
+        start = System.currentTimeMillis();
+
+        startSort = System.currentTimeMillis();
+        people.stream().forEach(p -> table.put(p.getName(), p));
+        finishSort = System.currentTimeMillis();
+
+        startSearch = System.currentTimeMillis();
+        List<Person> foundPeopleHashTable = new ArrayList<>();
+        for (String name : contacts) {
+            Person person = table.get(name);
+            foundPeopleHashTable.add(person);
+        }
+
+        finishSearch = System.currentTimeMillis();
+
+        finish = System.currentTimeMillis();
+
+        System.out.print("Found " + foundPeopleHashTable.size() + " / " + contacts.size() + " entries. ");
+        System.out.print("Time taken: ");
+        System.out.println(calculateTime(start, finish));
+
+        System.out.print("Creating time: ");
+        System.out.print(calculateTime(startSort, finishSort) + "\n");
         System.out.print("Searching time: ");
         System.out.println(calculateTime(startSearch, finishSearch));
     }
