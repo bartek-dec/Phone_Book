@@ -64,7 +64,7 @@ public class JumpSearch implements Search {
                 return person;
             }
 
-            if (person.getName().compareTo(name) > 0) {
+            if (name.compareTo(person.getName()) > 0) {
                 return null;
             }
         }
