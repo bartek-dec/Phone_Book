@@ -46,6 +46,6 @@ class BubbleSortTest {
 
     @Test
     void whenEmptyListThanNull() {
-        assertNull(sort.sortByNameAlphabetically(null, 1000));
+        assertNull(sort.sortByNameAlphabetically(new ArrayList<>(), 1000));
     }
 }
