@@ -8,7 +8,7 @@ public class BubbleSort implements Sort {
 
     @Override
     public List<Person> sortByNameAlphabetically(List<Person> people, long time) {
-        if (people == null) {
+        if (people == null || people.size() == 0) {
             return null;
         }
 
