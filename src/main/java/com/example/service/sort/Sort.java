@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface Sort {
 
-    List<Person> sortByNameAlphabetically(List<Person> people, long time);
+    List<Person> sortByNameAlphabetically(List<Person> people);
 }

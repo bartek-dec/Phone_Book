@@ -51,7 +51,7 @@ public class Main {
         start = System.currentTimeMillis();
 
         long startSort = System.currentTimeMillis();
-        List<Person> bubbleSortPeople = bubbleSort.sortByNameAlphabetically(peopleToBeBubbleSort, linearSearchTime);
+        List<Person> bubbleSortPeople = bubbleSort.sortByNameAlphabetically(peopleToBeBubbleSort);
         long finishSort = System.currentTimeMillis();
 
         long startSearch = System.currentTimeMillis();
@@ -87,7 +87,7 @@ public class Main {
         start = System.currentTimeMillis();
 
         startSort = System.currentTimeMillis();
-        List<Person> quickSortPeople = quickSort.sortByNameAlphabetically(peopleToBeQuickSort, linearSearchTime);
+        List<Person> quickSortPeople = quickSort.sortByNameAlphabetically(peopleToBeQuickSort);
         finishSort = System.currentTimeMillis();
 
         startSearch = System.currentTimeMillis();

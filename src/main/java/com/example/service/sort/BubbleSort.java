@@ -7,7 +7,7 @@ import java.util.List;
 public class BubbleSort implements Sort {
 
     @Override
-    public List<Person> sortByNameAlphabetically(List<Person> people, long time) {
+    public List<Person> sortByNameAlphabetically(List<Person> people) {
         if (people == null || people.size() == 0) {
             return null;
         }
@@ -25,7 +25,7 @@ public class BubbleSort implements Sort {
                     people.set(j, people.get(j + 1));
                     people.set(j + 1, temp);
 
-                    if ((System.currentTimeMillis() - startSort) > 10 * time) {
+                    if ((System.currentTimeMillis() - startSort) > 20000) {
                         return null;
                     }
                 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class QuickSort implements Sort {
 
     @Override
-    public List<Person> sortByNameAlphabetically(List<Person> people, long time) {
+    public List<Person> sortByNameAlphabetically(List<Person> people) {
         if (people == null) {
             return null;
         }

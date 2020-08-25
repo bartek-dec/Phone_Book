@@ -36,16 +36,16 @@ class QuickSortTest {
 
     @Test
     void sortByNameAlphabetically() {
-        assertEquals(sortedPeople, sort.sortByNameAlphabetically(people, 1000));
+        assertEquals(sortedPeople, sort.sortByNameAlphabetically(people));
     }
 
     @Test
     void whenNoListThanNull() {
-        assertNull(sort.sortByNameAlphabetically(null, 1000));
+        assertNull(sort.sortByNameAlphabetically(null));
     }
 
     @Test
     void whenEmptyListThanNull() {
-        assertNull(sort.sortByNameAlphabetically(new ArrayList<>(), 1000));
+        assertNull(sort.sortByNameAlphabetically(new ArrayList<>()));
     }
 }
